@@ -148,21 +148,21 @@ tr:hover td{background:#F8F6F2}
 <div id="toast" class="toast"></div>
 
 <!-- スマホ用ボトムナビ -->
-<div id="bottom-nav" style="display:none;position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);z-index:250;padding:0">
-  <div style="display:flex;justify-content:space-around">
-    <button class="bnav-btn active" onclick="showPanel('home')" data-panel="home" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border:none;background:none;cursor:pointer;color:var(--text-muted);font-size:10px;font-family:'LINESeedJP','Noto Sans JP',sans-serif;font-weight:600">
+<div id="bottom-nav" style="display:none;position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);z-index:250;padding:0 0 env(safe-area-inset-bottom)">
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);width:100%">
+    <button class="bnav-btn active" onclick="showPanel('home')" data-panel="home" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border:none;background:none;cursor:pointer;color:var(--green);font-size:10px;font-family:'LINESeedJP','Noto Sans JP',sans-serif;font-weight:600">
       <span style="font-size:20px">🏠</span>ホーム
     </button>
-    <button class="bnav-btn" onclick="showPanel('chart')" data-panel="chart" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border:none;background:none;cursor:pointer;color:var(--text-muted);font-size:10px;font-family:'LINESeedJP','Noto Sans JP',sans-serif;font-weight:600">
+    <button class="bnav-btn" onclick="showPanel('chart')" data-panel="chart" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border:none;background:none;cursor:pointer;color:var(--text-muted);font-size:10px;font-family:'LINESeedJP','Noto Sans JP',sans-serif;font-weight:600">
       <span style="font-size:20px">📈</span>グラフ
     </button>
-    <button class="bnav-btn" onclick="showPanel('horses')" data-panel="horses" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border:none;background:none;cursor:pointer;color:var(--text-muted);font-size:10px;font-family:'LINESeedJP','Noto Sans JP',sans-serif;font-weight:600">
+    <button class="bnav-btn" onclick="showPanel('horses')" data-panel="horses" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border:none;background:none;cursor:pointer;color:var(--text-muted);font-size:10px;font-family:'LINESeedJP','Noto Sans JP',sans-serif;font-weight:600">
       <span style="font-size:20px">🐴</span>指名馬
     </button>
-    <button class="bnav-btn" onclick="showPanel('results')" data-panel="results" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border:none;background:none;cursor:pointer;color:var(--text-muted);font-size:10px;font-family:'LINESeedJP','Noto Sans JP',sans-serif;font-weight:600">
+    <button class="bnav-btn" onclick="showPanel('results')" data-panel="results" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border:none;background:none;cursor:pointer;color:var(--text-muted);font-size:10px;font-family:'LINESeedJP','Noto Sans JP',sans-serif;font-weight:600">
       <span style="font-size:20px">🏁</span>結果
     </button>
-    <button class="bnav-btn" onclick="showPanel('entries')" data-panel="entries" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border:none;background:none;cursor:pointer;color:var(--text-muted);font-size:10px;font-family:'LINESeedJP','Noto Sans JP',sans-serif;font-weight:600">
+    <button class="bnav-btn" onclick="showPanel('entries')" data-panel="entries" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border:none;background:none;cursor:pointer;color:var(--text-muted);font-size:10px;font-family:'LINESeedJP','Noto Sans JP',sans-serif;font-weight:600">
       <span style="font-size:20px">📅</span>出走
     </button>
   </div>
