@@ -97,12 +97,81 @@ tr:hover td{background:#F8F6F2}
 .confirm-msg{font-size:14px;color:var(--text);line-height:1.7;margin-bottom:20px}
 .modal-title{font-size:15px;font-weight:700;margin-bottom:16px}
 .modal-footer{display:flex;justify-content:flex-end;gap:8px;margin-top:20px}
+
+/* ===== レスポンシブ ===== */
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+
+@media(max-width:640px){
+  header{padding:12px 16px}
+  header h1{font-size:15px}
+  #sync-text{display:none}
+
+  /* PCナビを非表示 → ボトムナビを表示 */
+  nav{display:none}
+  #bottom-nav{display:flex}
+
+  main{padding:12px 12px 80px}
+
+  .card-header{padding:12px 14px;flex-wrap:wrap;gap:8px}
+  .card-title{font-size:13px}
+
+  /* テーブルをスクロール対応 */
+  .card > table, .card > div > table{display:none}
+  .table-wrap{display:block}
+
+  th{font-size:10px;padding:8px 10px}
+  td{padding:9px 10px;font-size:12px}
+
+  /* フォームを1カラム */
+  .form-grid{grid-template-columns:1fr}
+  .detail-metrics{grid-template-columns:repeat(3,1fr)}
+  .detail-metric-value{font-size:18px}
+
+  /* 登録フォームの2カラムも1カラムに */
+  div[style*="grid-template-columns:1fr 1fr"]{display:block!important}
+  div[style*="grid-template-columns:1fr 1fr"] > .card{margin-bottom:16px}
+
+  .search-input{width:140px;font-size:12px}
+  .btn{padding:8px 16px;font-size:12px}
+  .btn-sm,.btn-sm-danger{padding:4px 10px;font-size:11px}
+
+  .home-grid{grid-template-columns:1fr}
+
+  /* ランキング行を少しコンパクトに */
+  #ranking-body tr td:last-child{font-size:11px}
+}
+
+@media(min-width:641px){
+  #bottom-nav{display:none!important}
+  .table-wrap table{display:table}
+}
 </style>
 </head>
 <body>
 
 <div id="loading-overlay" class="loading-overlay"><div class="spinner"></div><span>データを読み込み中…</span></div>
 <div id="toast" class="toast"></div>
+
+<!-- スマホ用ボトムナビ -->
+<div id="bottom-nav" style="display:none;position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);z-index:250;padding:0">
+  <div style="display:flex;justify-content:space-around">
+    <button class="bnav-btn active" onclick="showPanel('home')" data-panel="home" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border:none;background:none;cursor:pointer;color:var(--text-muted);font-size:10px;font-family:'LINE Seed JP',sans-serif;font-weight:600">
+      <span style="font-size:20px">🏠</span>ホーム
+    </button>
+    <button class="bnav-btn" onclick="showPanel('chart')" data-panel="chart" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border:none;background:none;cursor:pointer;color:var(--text-muted);font-size:10px;font-family:'LINE Seed JP',sans-serif;font-weight:600">
+      <span style="font-size:20px">📈</span>グラフ
+    </button>
+    <button class="bnav-btn" onclick="showPanel('horses')" data-panel="horses" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border:none;background:none;cursor:pointer;color:var(--text-muted);font-size:10px;font-family:'LINE Seed JP',sans-serif;font-weight:600">
+      <span style="font-size:20px">🐴</span>指名馬
+    </button>
+    <button class="bnav-btn" onclick="showPanel('results')" data-panel="results" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border:none;background:none;cursor:pointer;color:var(--text-muted);font-size:10px;font-family:'LINE Seed JP',sans-serif;font-weight:600">
+      <span style="font-size:20px">🏁</span>結果
+    </button>
+    <button class="bnav-btn" onclick="showPanel('entries')" data-panel="entries" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border:none;background:none;cursor:pointer;color:var(--text-muted);font-size:10px;font-family:'LINE Seed JP',sans-serif;font-weight:600">
+      <span style="font-size:20px">📅</span>出走
+    </button>
+  </div>
+</div>
 
 <!-- カスタム確認ダイアログ -->
 <div id="confirm-modal" class="modal-bg">
@@ -163,17 +232,17 @@ tr:hover td{background:#F8F6F2}
       <span class="card-title">ポイントランキング</span>
       <button class="btn btn-secondary" onclick="loadData()" style="font-size:12px;padding:6px 14px">更新</button>
     </div>
-    <table>
+    <div class="table-wrap"><table>
       <thead><tr><th style="width:60px">順位</th><th style="width:120px">参加者</th><th style="text-align:right">ポイント</th><th style="width:120px"></th></tr></thead>
       <tbody id="ranking-body"></tbody>
     </table>
   </div>
   <div class="card">
     <div class="card-header"><span class="card-title">直近の出走予定</span></div>
-    <table>
+    <div class="table-wrap"><table>
       <thead><tr><th>日付</th><th>レース名</th><th>馬名</th><th>参加者</th><th>状態</th></tr></thead>
       <tbody id="home-entries-body"></tbody>
-    </table>
+    </table></div>
   </div>
 </div>
 
@@ -209,17 +278,17 @@ tr:hover td{background:#F8F6F2}
   </div>
   <div class="card">
     <div class="card-header"><span class="card-title">指名馬とポイント内訳</span></div>
-    <table>
+    <div class="table-wrap"><table>
       <thead><tr><th>馬名</th><th>性別</th><th>厩舎</th><th style="text-align:right">獲得pt</th><th>成績</th></tr></thead>
       <tbody id="detail-horses-body"></tbody>
     </table>
   </div>
   <div class="card">
     <div class="card-header"><span class="card-title">レース履歴</span></div>
-    <table>
+    <div class="table-wrap"><table>
       <thead><tr><th>日付</th><th>レース名</th><th>グレード</th><th>馬名</th><th>着順</th><th style="text-align:right">加算pt</th></tr></thead>
       <tbody id="detail-results-body"></tbody>
-    </table>
+    </table></div>
   </div>
 </div>
 
@@ -242,7 +311,7 @@ tr:hover td{background:#F8F6F2}
         <th>性別</th><th>厩舎</th><th style="text-align:right;cursor:pointer;user-select:none" onclick="sortHorses('points')">ポイント <span id="sort-points">↕</span></th><th>成績</th><th>リンク</th><th></th>
       </tr></thead>
       <tbody id="horses-body"></tbody>
-    </table>
+    </table></div>
   </div>
 </div>
 
@@ -258,10 +327,10 @@ tr:hover td{background:#F8F6F2}
         <button class="btn-sm" onclick="toggleResultsSort()" id="results-sort-btn">日付 ↓ 新しい順</button>
       </div>
     </div>
-    <table>
+    <div class="table-wrap"><table>
       <thead><tr><th>日付</th><th>レース名</th><th>グレード</th><th>馬名</th><th>着順</th><th style="text-align:right">加算pt</th><th></th></tr></thead>
       <tbody id="results-body"></tbody>
-    </table>
+    </table></div>
   </div>
 </div>
 
@@ -269,10 +338,10 @@ tr:hover td{background:#F8F6F2}
 <div id="panel-entries" class="panel">
   <div class="card">
     <div class="card-header"><span class="card-title">出走予定一覧</span></div>
-    <table>
+    <div class="table-wrap"><table>
       <thead><tr><th>日付</th><th>レース名</th><th>グレード</th><th>馬名</th><th>参加者</th><th>状態</th><th></th></tr></thead>
       <tbody id="entries-body"></tbody>
-    </table>
+    </table></div>
   </div>
 </div>
 
@@ -1080,8 +1149,13 @@ function showPanel(name){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('panel-'+name).classList.add('active');
-  const btn=document.querySelector(`[onclick="showPanel('${name}')"]`);
+  const btn=document.querySelector(`[onclick="showPanel('${name}')"].nav-btn`);
   if(btn)btn.classList.add('active');
+  // ボトムナビのアクティブ状態
+  document.querySelectorAll('.bnav-btn').forEach(b=>{
+    const isActive=b.dataset.panel===name;
+    b.style.color=isActive?'var(--green)':'var(--text-muted)';
+  });
   if(name==='points')renderPoints();
   if(name==='chart')renderChart();
 }
