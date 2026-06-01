@@ -6,8 +6,6 @@
 <title>POG管理ツール</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Noto+Sans+JP:wght@400;500;700&display=swap');
-@font-face{font-family:'LINESeedJP';src:url('https://rawcdn.githack.com/line/line-seed/main/fonts/web/woff2/LINESeedJP_OTF_Rg.woff2') format('woff2');font-weight:400;font-display:swap}
-@font-face{font-family:'LINESeedJP';src:url('https://rawcdn.githack.com/line/line-seed/main/fonts/web/woff2/LINESeedJP_OTF_Bd.woff2') format('woff2');font-weight:700;font-display:swap}
 :root{
   --green:#00704A;
   --green-light:#E3EFEA;
@@ -24,16 +22,16 @@
   --shadow:0 2px 8px rgba(0,0,0,0.08);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'LINESeedJP','Noto Sans JP',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 header{background:var(--green-dark);color:#fff;padding:16px 28px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid var(--gold)}
-header h1{font-size:18px;font-weight:700;letter-spacing:.06em;font-family:'LINESeedJP','Noto Sans JP',sans-serif}
+header h1{font-size:18px;font-weight:700;letter-spacing:.06em;font-family:'Noto Sans JP',sans-serif}
 #sync-status{font-size:12px;opacity:.8;display:flex;align-items:center;gap:6px}
 #sync-dot{width:8px;height:8px;border-radius:50%;background:#6ee7a0;display:inline-block}
 #sync-dot.loading{background:#fcd34d;animation:pulse 1s infinite}
 #sync-dot.error{background:#f87171}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 nav{background:var(--surface);border-bottom:1px solid var(--border);padding:0 28px;display:flex;overflow-x:auto}
-.nav-btn{padding:13px 18px;font-size:13px;font-family:'LINESeedJP','Noto Sans JP',sans-serif;border:none;background:none;cursor:pointer;color:var(--text-muted);border-bottom:2px solid transparent;white-space:nowrap;font-weight:500;letter-spacing:.03em}
+.nav-btn{padding:13px 18px;font-size:13px;font-family:'Noto Sans JP',sans-serif;border:none;background:none;cursor:pointer;color:var(--text-muted);border-bottom:2px solid transparent;white-space:nowrap;font-weight:500;letter-spacing:.03em}
 .nav-btn.active{color:var(--green);border-bottom-color:var(--gold)}
 .nav-btn:hover:not(.active){color:var(--green)}
 main{padding:24px;max-width:900px;margin:0 auto}
@@ -57,16 +55,16 @@ tr:hover td{background:#F8F6F2}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .form-group{display:flex;flex-direction:column;gap:5px}
 .form-group label{font-size:12px;font-weight:600;color:var(--text-muted);letter-spacing:.04em;text-transform:uppercase}
-.form-group input,.form-group select{padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-family:'LINESeedJP','Noto Sans JP',sans-serif;background:var(--surface);color:var(--text);outline:none}
+.form-group input,.form-group select{padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-family:'Noto Sans JP',sans-serif;background:var(--surface);color:var(--text);outline:none}
 .form-group input:focus,.form-group select:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(0,112,74,0.1)}
-.btn{padding:9px 20px;border-radius:50px;font-size:13px;font-family:'LINESeedJP','Noto Sans JP',sans-serif;cursor:pointer;font-weight:600;border:none;letter-spacing:.03em}
+.btn{padding:9px 20px;border-radius:50px;font-size:13px;font-family:'Noto Sans JP',sans-serif;cursor:pointer;font-weight:600;border:none;letter-spacing:.03em}
 .btn-primary{background:var(--green);color:#fff}.btn-primary:hover{background:var(--green-dark)}
 .btn-secondary{background:var(--surface);color:var(--green-dark);border:1.5px solid var(--green)}.btn-secondary:hover{background:var(--green-light)}
-.btn-sm{padding:5px 14px;font-size:12px;border-radius:50px;cursor:pointer;font-weight:600;border:1.5px solid var(--border);background:var(--surface);color:var(--text);font-family:'LINESeedJP','Noto Sans JP',sans-serif}
+.btn-sm{padding:5px 14px;font-size:12px;border-radius:50px;cursor:pointer;font-weight:600;border:1.5px solid var(--border);background:var(--surface);color:var(--text);font-family:'Noto Sans JP',sans-serif}
 .btn-sm:hover{background:var(--green-light);border-color:var(--green);color:var(--green)}
-.btn-sm-danger{padding:5px 14px;font-size:12px;border-radius:50px;cursor:pointer;font-weight:600;border:1.5px solid #fca5a5;background:#fff;color:#dc2626;font-family:'LINESeedJP','Noto Sans JP',sans-serif}
+.btn-sm-danger{padding:5px 14px;font-size:12px;border-radius:50px;cursor:pointer;font-weight:600;border:1.5px solid #fca5a5;background:#fff;color:#dc2626;font-family:'Noto Sans JP',sans-serif}
 .btn-sm-danger:hover{background:#fef2f2}
-.search-input{padding:7px 14px;border:1.5px solid var(--border);border-radius:50px;font-size:13px;font-family:'LINESeedJP','Noto Sans JP',sans-serif;background:var(--surface);color:var(--text);width:200px;outline:none}
+.search-input{padding:7px 14px;border:1.5px solid var(--border);border-radius:50px;font-size:13px;font-family:'Noto Sans JP',sans-serif;background:var(--surface);color:var(--text);width:200px;outline:none}
 .search-input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(0,112,74,0.1)}
 .pt-table{width:100%;border-collapse:collapse;font-size:13px}
 .pt-table th{padding:8px 10px;background:#f7f9f7;border-bottom:1px solid var(--border);font-size:11px;text-align:center}
@@ -83,7 +81,7 @@ tr:hover td{background:#F8F6F2}
 .toast.show{opacity:1;transform:translateY(0)}.toast.error{background:#dc2626}
 .clickable-row{cursor:pointer}
 .clickable-row:hover td{background:#f0f8f3 !important}
-.back-btn{display:flex;align-items:center;gap:4px;background:none;border:1.5px solid var(--border);border-radius:50px;padding:7px 16px;font-size:13px;font-family:'LINESeedJP','Noto Sans JP',sans-serif;cursor:pointer;color:var(--text-muted);font-weight:600}
+.back-btn{display:flex;align-items:center;gap:4px;background:none;border:1.5px solid var(--border);border-radius:50px;padding:7px 16px;font-size:13px;font-family:'Noto Sans JP',sans-serif;cursor:pointer;color:var(--text-muted);font-weight:600}
 .back-btn:hover{background:var(--green-light);color:var(--green);border-color:var(--green)}
 .detail-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
 .detail-metric{background:var(--green-dark);border-radius:var(--radius);padding:14px 16px}
@@ -149,19 +147,19 @@ tr:hover td{background:#F8F6F2}
 <!-- スマホ用ボトムナビ -->
 <div id="bottom-nav" style="display:none;position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);z-index:250;padding:0 0 env(safe-area-inset-bottom)">
   <div style="display:grid;grid-template-columns:repeat(5,1fr);width:100%">
-    <button class="bnav-btn active" onclick="showPanel('home')" data-panel="home" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border:none;background:none;cursor:pointer;color:var(--green);font-size:10px;font-family:'LINESeedJP','Noto Sans JP',sans-serif;font-weight:600">
+    <button class="bnav-btn active" onclick="showPanel('home')" data-panel="home" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border:none;background:none;cursor:pointer;color:var(--green);font-size:10px;font-family:'Noto Sans JP',sans-serif;font-weight:600">
       <span style="font-size:20px">🏠</span>ホーム
     </button>
-    <button class="bnav-btn" onclick="showPanel('chart')" data-panel="chart" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border:none;background:none;cursor:pointer;color:var(--text-muted);font-size:10px;font-family:'LINESeedJP','Noto Sans JP',sans-serif;font-weight:600">
+    <button class="bnav-btn" onclick="showPanel('chart')" data-panel="chart" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border:none;background:none;cursor:pointer;color:var(--text-muted);font-size:10px;font-family:'Noto Sans JP',sans-serif;font-weight:600">
       <span style="font-size:20px">📈</span>グラフ
     </button>
-    <button class="bnav-btn" onclick="showPanel('horses')" data-panel="horses" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border:none;background:none;cursor:pointer;color:var(--text-muted);font-size:10px;font-family:'LINESeedJP','Noto Sans JP',sans-serif;font-weight:600">
+    <button class="bnav-btn" onclick="showPanel('horses')" data-panel="horses" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border:none;background:none;cursor:pointer;color:var(--text-muted);font-size:10px;font-family:'Noto Sans JP',sans-serif;font-weight:600">
       <span style="font-size:20px">🐴</span>指名馬
     </button>
-    <button class="bnav-btn" onclick="showPanel('results')" data-panel="results" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border:none;background:none;cursor:pointer;color:var(--text-muted);font-size:10px;font-family:'LINESeedJP','Noto Sans JP',sans-serif;font-weight:600">
+    <button class="bnav-btn" onclick="showPanel('results')" data-panel="results" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border:none;background:none;cursor:pointer;color:var(--text-muted);font-size:10px;font-family:'Noto Sans JP',sans-serif;font-weight:600">
       <span style="font-size:20px">🏁</span>結果
     </button>
-    <button class="bnav-btn" onclick="showPanel('entries')" data-panel="entries" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border:none;background:none;cursor:pointer;color:var(--text-muted);font-size:10px;font-family:'LINESeedJP','Noto Sans JP',sans-serif;font-weight:600">
+    <button class="bnav-btn" onclick="showPanel('entries')" data-panel="entries" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border:none;background:none;cursor:pointer;color:var(--text-muted);font-size:10px;font-family:'Noto Sans JP',sans-serif;font-weight:600">
       <span style="font-size:20px">📅</span>出走
     </button>
   </div>
@@ -364,15 +362,8 @@ tr:hover td{background:#F8F6F2}
       <div style="padding:16px">
         <div class="form-group" style="margin-bottom:12px"><label>参加者名</label><input type="text" id="new-player" placeholder="例：田中"></div>
         <div class="form-group" style="margin-bottom:14px">
-          <label>アイコン画像 <span style="font-weight:400;color:var(--text-muted)">（任意）</span></label>
-          <div style="display:flex;align-items:center;gap:10px">
-            <label style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border:1px solid var(--border);border-radius:7px;cursor:pointer;font-size:13px;color:var(--text);background:var(--surface)">
-              📁 画像を選択
-              <input type="file" id="new-player-icon-file" accept="image/*" style="display:none" onchange="previewPlayerIcon(this)">
-            </label>
-            <img id="new-player-icon-preview" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--border);display:none">
-            <span id="new-player-icon-name" style="font-size:12px;color:var(--text-muted)"></span>
-          </div>
+          <label>アイコン画像URL <span style="font-weight:400;color:var(--text-muted)">（任意）</span></label>
+          <input type="text" id="new-player-icon" placeholder="例：https://lccpog.github.io/pog-tool/icons/tanaka.jpg">
         </div>
         <button class="btn btn-primary" onclick="addPlayer()">登録</button>
         <div id="player-list" style="margin-top:14px;display:flex;flex-wrap:wrap;gap:8px"></div>
@@ -516,7 +507,6 @@ async function loadData(){
 async function saveData(){
   setSyncStatus('loading');
   try{
-    // playersは画像データが大きいので別途送信、writeAllではplayersをスキップ
     const r1=await gasRequest('writePlayers',{players:state.players});
     if(!r1.ok)throw new Error(r1.error);
     const stateNoPlayers={...state,players:[]};
@@ -867,51 +857,13 @@ function updateSelects(){
   }
 }
 
-function previewPlayerIcon(input){
-  const file=input.files[0];
-  if(!file)return;
-  const reader=new FileReader();
-  reader.onload=e=>{
-    const preview=document.getElementById('new-player-icon-preview');
-    preview.src=e.target.result;
-    preview.style.display='block';
-    document.getElementById('new-player-icon-name').textContent=file.name;
-  };
-  reader.readAsDataURL(file);
-}
-
 async function addPlayer(){
   const name=document.getElementById('new-player').value.trim();
+  const icon=document.getElementById('new-player-icon').value.trim();
   if(!name||state.players.some(p=>p.name===name))return showToast('名前を入力してください（重複不可）',true);
-  const file=document.getElementById('new-player-icon-file').files[0];
-  let icon='';
-  if(file){
-    icon=await new Promise((resolve,reject)=>{
-      const reader=new FileReader();
-      reader.onload=e=>{
-        const img=new Image();
-        img.onload=()=>{
-          const canvas=document.createElement('canvas');
-          const size=48;
-          canvas.width=size;canvas.height=size;
-          const ctx=canvas.getContext('2d');
-          const min=Math.min(img.width,img.height);
-          const sx=(img.width-min)/2;
-          const sy=(img.height-min)/2;
-          ctx.drawImage(img,sx,sy,min,min,0,0,size,size);
-          resolve(canvas.toDataURL('image/jpeg',0.3));
-        };
-        img.src=e.target.result;
-      };
-      reader.onerror=reject;
-      reader.readAsDataURL(file);
-    });
-  }
   state.players.push({name,icon});
   document.getElementById('new-player').value='';
-  document.getElementById('new-player-icon-file').value='';
-  document.getElementById('new-player-icon-preview').style.display='none';
-  document.getElementById('new-player-icon-name').textContent='';
+  document.getElementById('new-player-icon').value='';
   updateSelects();renderRanking();renderPlayerList();await saveData();
 }
 
@@ -1100,7 +1052,7 @@ function renderChart() {
           ctx.fillStyle = color;
           ctx.fill();
           ctx.fillStyle = '#fff';
-          ctx.font = `bold ${Math.floor(iconSize * 0.4)}px 'LINESeedJP','Noto Sans JP',sans-serif`;
+          ctx.font = `bold ${Math.floor(iconSize * 0.4)}px 'Noto Sans JP',sans-serif`;
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           ctx.fillText(player.name.slice(0, 1), x, y);
