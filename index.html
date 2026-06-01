@@ -434,7 +434,7 @@ tr:hover td{background:#F8F6F2}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbzW94_JMDrVpQc9V6egjaHyd4DFSCKr-QrtWmiegyHLgkt6fc5JunBY0E-H579f2iUO/exec';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbySLRhmSY_tq4jTeGRn6lw9spBC38ojJtPBLTd4D21O00S9KzuwFJ1Iw0wrKkiM4eYS/exec';
 
 const GRADES = [
   {key:'newface',label:'新馬',cls:'bg-new'},{key:'maiden',label:'未勝利',cls:'bg-maiden'},
@@ -465,11 +465,23 @@ function showToast(msg,isError=false){
   setTimeout(()=>t.className='toast',3000);
 }
 
+// GETでreadのみ、書き込みはPOST
 async function gasRequest(action,data=null){
-  const url=new URL(GAS_URL);
-  url.searchParams.set('action',action);
-  if(data)url.searchParams.set('data',JSON.stringify(data));
-  const res=await fetch(url.toString(),{redirect:'follow'});
+  if(action==='read'){
+    const url=new URL(GAS_URL);
+    url.searchParams.set('action','read');
+    const res=await fetch(url.toString(),{redirect:'follow'});
+    if(!res.ok)throw new Error('Network error');
+    return await res.json();
+  }
+  // 書き込みはJSONPOSTでURLサイズ制限を回避
+  const body=JSON.stringify({action,data});
+  const res=await fetch(GAS_URL,{
+    method:'POST',
+    headers:{'Content-Type':'text/plain'},
+    body,
+    redirect:'follow'
+  });
   if(!res.ok)throw new Error('Network error');
   return await res.json();
 }
@@ -494,11 +506,21 @@ async function saveData(){
   try{
     const r1=await gasRequest('writePlayers',{players:state.players});
     if(!r1.ok)throw new Error(r1.error);
-    const stateNoPlayers={...state,players:[]};
-    const r2=await gasRequest('write',stateNoPlayers);
+
+    const r2=await gasRequest('writeHorses',{horses:state.horses});
     if(!r2.ok)throw new Error(r2.error);
+
+    const r3=await gasRequest('writeResults',{results:state.results});
+    if(!r3.ok)throw new Error(r3.error);
+
+    const r4=await gasRequest('writeEntries',{entries:state.entries});
+    if(!r4.ok)throw new Error(r4.error);
+
+    const r5=await gasRequest('writePoints',{ptTable:state.ptTable});
+    if(!r5.ok)throw new Error(r5.error);
+
     setSyncStatus('ok');showToast('スプレッドシートに保存しました');
-  }catch(e){setSyncStatus('error');showToast('保存に失敗しました',true);}
+  }catch(e){setSyncStatus('error');showToast('保存に失敗しました',true);console.error(e);}
 }
 
 function recalc(){
