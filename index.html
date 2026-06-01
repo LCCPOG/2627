@@ -6,9 +6,8 @@
 <title>POG管理ツール</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Noto+Sans+JP:wght@400;500;700&display=swap');
-/* LINE Seed JP - 利用可能な場合に優先使用 */
-@font-face{font-family:'LINESeedJP';src:url('https://cdn.jsdelivr.net/gh/coz-media/line-seed-jp-web@main/fonts/woff2/LINESeedJP_OTF_Rg.woff2') format('woff2');font-weight:400;font-display:swap}
-@font-face{font-family:'LINESeedJP';src:url('https://cdn.jsdelivr.net/gh/coz-media/line-seed-jp-web@main/fonts/woff2/LINESeedJP_OTF_Bd.woff2') format('woff2');font-weight:700;font-display:swap}
+@font-face{font-family:'LINESeedJP';src:url('https://rawcdn.githack.com/line/line-seed/main/fonts/web/woff2/LINESeedJP_OTF_Rg.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'LINESeedJP';src:url('https://rawcdn.githack.com/line/line-seed/main/fonts/web/woff2/LINESeedJP_OTF_Bd.woff2') format('woff2');font-weight:700;font-display:swap}
 :root{
   --green:#00704A;
   --green-light:#E3EFEA;
@@ -491,26 +490,12 @@ function showToast(msg,isError=false){
 }
 
 async function gasRequest(action,data=null){
-  if(action==='read'){
-    // 読み込みはGET
-    const url=new URL(GAS_URL);
-    url.searchParams.set('action','read');
-    const res=await fetch(url.toString(),{redirect:'follow'});
-    if(!res.ok)throw new Error('Network error');
-    return await res.json();
-  } else {
-    // 書き込みはPOSTでURLパラメータ制限を回避
-    const url=new URL(GAS_URL);
-    url.searchParams.set('action',action);
-    const res=await fetch(url.toString(),{
-      method:'POST',
-      headers:{'Content-Type':'application/x-www-form-urlencoded'},
-      body:'data='+encodeURIComponent(JSON.stringify(data)),
-      redirect:'follow'
-    });
-    if(!res.ok)throw new Error('Network error');
-    return await res.json();
-  }
+  const url=new URL(GAS_URL);
+  url.searchParams.set('action',action);
+  if(data)url.searchParams.set('data',JSON.stringify(data));
+  const res=await fetch(url.toString(),{redirect:'follow'});
+  if(!res.ok)throw new Error('Network error');
+  return await res.json();
 }
 
 async function loadData(){
@@ -907,14 +892,14 @@ async function addPlayer(){
         const img=new Image();
         img.onload=()=>{
           const canvas=document.createElement('canvas');
-          const size=64;
+          const size=48;
           canvas.width=size;canvas.height=size;
           const ctx=canvas.getContext('2d');
           const min=Math.min(img.width,img.height);
           const sx=(img.width-min)/2;
           const sy=(img.height-min)/2;
           ctx.drawImage(img,sx,sy,min,min,0,0,size,size);
-          resolve(canvas.toDataURL('image/jpeg',0.5));
+          resolve(canvas.toDataURL('image/jpeg',0.3));
         };
         img.src=e.target.result;
       };
