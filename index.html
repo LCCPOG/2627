@@ -222,8 +222,6 @@ tr:hover td{background:#F8F6F2}
     </table></div>
   </div>
 </div>
-
-<!-- 個人詳細 -->
 <!-- グラフ -->
 <div id="panel-chart" class="panel">
   <div class="card">
@@ -452,6 +450,16 @@ let state = {players:[],horses:[],results:[],entries:[],ptTable:JSON.parse(JSON.
 let pendingEntryId = null;
 let horseSort = {key:'name', asc:true};
 
+let isSaving = false;
+
+window.addEventListener('beforeunload', e => {
+  if (isSaving) {
+    e.preventDefault();
+    e.returnValue = '保存中です。このまま離れるとデータが失われる可能性があります。';
+    return e.returnValue;
+  }
+});
+
 function setSyncStatus(s){
   const dot=document.getElementById('sync-dot'),text=document.getElementById('sync-text');
   dot.className=s==='loading'?'loading':s==='error'?'error':'';
@@ -502,6 +510,7 @@ async function loadData(){
 }
 
 async function saveData(){
+  isSaving = true;
   setSyncStatus('loading');
   try{
     const r1=await gasRequest('writePlayers',{players:state.players});
@@ -521,6 +530,7 @@ async function saveData(){
 
     setSyncStatus('ok');showToast('スプレッドシートに保存しました');
   }catch(e){setSyncStatus('error');showToast('保存に失敗しました',true);console.error(e);}
+  finally{ isSaving = false; }
 }
 
 function recalc(){
