@@ -221,6 +221,13 @@ tr:hover td{background:#F8F6F2}
       <tbody id="home-entries-body"></tbody>
     </table></div>
   </div>
+  <div class="card">
+    <div class="card-header">
+      <span class="card-title">📰 POGニュース</span>
+      <button class="btn btn-secondary" onclick="loadNews()" style="font-size:12px;padding:6px 14px">更新</button>
+    </div>
+    <div id="news-body" style="padding:4px 0"></div>
+  </div>
 </div>
 <!-- グラフ -->
 <div id="panel-chart" class="panel">
@@ -432,7 +439,7 @@ tr:hover td{background:#F8F6F2}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbxUiyUT59EIoC8SCd1IdQTJYXYCDIDQvuz92wh40wM3okq_4juLy-gYq7fejJmf1C9u/exec';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbyzADOD7Y2pikwAztFy9gr_xWIFiIZiLIO_N0hAeF-j0Md-dTll0wqnGegtqA7h-Aky/exec';
 
 const GRADES = [
   {key:'newface',label:'新馬',cls:'bg-new'},{key:'maiden',label:'未勝利',cls:'bg-maiden'},
@@ -505,6 +512,7 @@ async function loadData(){
     state.entries=r.data.entries||[];
     if(r.data.ptTable&&Object.keys(r.data.ptTable).length>0)state.ptTable=r.data.ptTable;
     recalc();renderAll();setSyncStatus('ok');
+    loadNews(); // ニュース自動取得
   }catch(e){setSyncStatus('error');showToast('データの読み込みに失敗しました',true);}
   finally{document.getElementById('loading-overlay').style.display='none';}
 }
@@ -1138,6 +1146,38 @@ function showPanel(name){
   });
   if(name==='points')renderPoints();
   if(name==='chart')renderChart();
+}
+
+async function loadNews(){
+  const el=document.getElementById('news-body');
+  el.innerHTML='<div style="padding:16px;color:var(--text-muted);font-size:13px">取得中…</div>';
+  try{
+    // まずGASにRSS取得を指示
+    await gasRequest('fetchNews');
+    // 取得済みニュースを読み込み
+    const r=await gasRequest('readNews');
+    if(r.ok)renderNews(r.data);
+    else el.innerHTML='<div style="padding:16px;color:var(--text-muted);font-size:13px">ニュースの取得に失敗しました</div>';
+  }catch(e){
+    el.innerHTML='<div style="padding:16px;color:var(--text-muted);font-size:13px">ニュースの取得に失敗しました</div>';
+  }
+}
+
+function renderNews(news){
+  const el=document.getElementById('news-body');
+  if(!news||!news.length){
+    el.innerHTML='<div style="padding:16px;color:var(--text-muted);font-size:13px">POG関連のニュースはありません</div>';
+    return;
+  }
+  el.innerHTML=news.map(n=>{
+    const date=n.pubDate?new Date(n.pubDate).toLocaleDateString('ja-JP',{month:'numeric',day:'numeric'}):'';
+    return`<a href="${n.link}" target="_blank" rel="noopener" style="display:block;padding:12px 18px;border-bottom:1px solid var(--border);text-decoration:none;color:var(--text)">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+        <span style="font-size:11px;color:var(--text-muted)">${date}</span>
+      </div>
+      <div style="font-size:13px;font-weight:500;line-height:1.5">${n.title}</div>
+    </a>`;
+  }).join('')+'<div style="padding:10px 18px"><a href="https://news.netkeiba.com/" target="_blank" rel="noopener" style="font-size:12px;color:var(--green)">netkeiba.com でもっと見る →</a></div>';
 }
 
 function renderAll(){renderRanking();renderHomeEntries();renderHorses();renderResults();renderEntries();renderPlayerList();updateSelects();}
