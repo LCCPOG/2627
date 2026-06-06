@@ -1150,15 +1150,23 @@ function showPanel(name){
 
 async function loadNews(){
   const el=document.getElementById('news-body');
+  if(!el)return;
   el.innerHTML='<div style="padding:16px;color:var(--text-muted);font-size:13px">取得中…</div>';
   try{
-    // まずGASにRSS取得を指示
+    // RSSを取得してスプレッドシートに保存
     await gasRequest('fetchNews');
-    // 取得済みニュースを読み込み
-    const r=await gasRequest('readNews');
-    if(r.ok)renderNews(r.data);
-    else el.innerHTML='<div style="padding:16px;color:var(--text-muted);font-size:13px">ニュースの取得に失敗しました</div>';
+    // スプレッドシートからニュースを読み込み
+    const url=new URL(GAS_URL);
+    url.searchParams.set('action','readNews');
+    const res=await fetch(url.toString(),{redirect:'follow'});
+    const r=await res.json();
+    if(r.ok&&r.data&&r.data.length>0){
+      renderNews(r.data);
+    } else {
+      el.innerHTML='<div style="padding:16px;color:var(--text-muted);font-size:13px">POG関連のニュースはありません</div>';
+    }
   }catch(e){
+    console.error('loadNews error:', e);
     el.innerHTML='<div style="padding:16px;color:var(--text-muted);font-size:13px">ニュースの取得に失敗しました</div>';
   }
 }
