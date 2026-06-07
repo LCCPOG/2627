@@ -646,18 +646,20 @@ function renderHomeEntries(){
       ?`<div style="display:flex;align-items:center;gap:6px">${playerIcon(player,20)}<span>${player.name}</span></div>`
       :'—';
     const finished=isFinished(e);
-    const statusBadge=finished
-      ?'<span class="badge bg-win">結果済</span>'
-      :'<span class="badge bg-pending">出走予定</span>';
-    // 結果済みの場合はポイントも表示
+    // 結果済みの場合は着順とポイントも表示
     const result=finished?state.results.find(r=>r.horse===e.horse&&r.race===e.race&&formatDate(r.date)===formatDate(e.date)):null;
+    const placeLabel=result?['','1着','2着','3着','4着','5着','6着以下'][Number(result.place)]||result.place+'着':'';
+    const placeBadgeHtml=result?placeBadge(Number(result.place)):'';
     const ptCell=result?`<span class="pts-positive" style="font-size:12px">+${result.points}pt</span>`:'';
+    const statusBadge=finished
+      ?`<div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap"><span class="badge bg-win">結果済</span>${placeBadgeHtml}${ptCell}</div>`
+      :'<span class="badge bg-pending">出走予定</span>';
     return `<tr>
       <td style="color:var(--text-muted);font-size:12px;font-family:'DM Mono',monospace">${formatDate(e.date)}</td>
       <td style="font-weight:500">${e.race}<br><span class="badge ${g.cls}" style="margin-top:3px">${g.label}</span></td>
       <td style="font-weight:700">${e.horse}</td>
       <td>${playerCell}</td>
-      <td>${statusBadge} ${ptCell}</td>
+      <td>${statusBadge}</td>
     </tr>`;
   }).join('');
 }
