@@ -127,6 +127,7 @@ tr:hover td{background:#F8F6F2}
 <body>
 
 <div id="loading-overlay" class="loading-overlay"><div class="spinner"></div><span>データを読み込み中…</span></div>
+<div id="saving-overlay" class="loading-overlay" style="display:none;z-index:300"><div class="spinner"></div><span>保存中…操作をお待ちください</span></div>
 <div id="toast" class="toast"></div>
 
 <!-- スマホ用ボトムナビ -->
@@ -519,6 +520,7 @@ async function loadData(){
 
 async function saveData(){
   isSaving = true;
+  document.getElementById('saving-overlay').style.display='flex';
   setSyncStatus('loading');
   try{
     const r1=await gasRequest('writePlayers',{players:state.players});
@@ -538,7 +540,7 @@ async function saveData(){
 
     setSyncStatus('ok');showToast('スプレッドシートに保存しました');
   }catch(e){setSyncStatus('error');showToast('保存に失敗しました',true);console.error(e);}
-  finally{ isSaving = false; }
+  finally{ isSaving = false; document.getElementById('saving-overlay').style.display='none'; }
 }
 
 function recalc(){
@@ -665,10 +667,27 @@ function renderHomeEntries(){
 }
 
 function renderEntries(){
-  const sorted=[...state.entries].map((e,i)=>({...e,_idx:i})).sort((a,b)=>String(a.date).localeCompare(String(b.date)));
+  const today=new Date().toISOString().slice(0,10);
+  // 今週の月曜日を計算
+  const now=new Date();
+  const dow=now.getDay();
+  const monday=new Date(now);
+  monday.setDate(now.getDate()-(dow===0?6:dow-1));
+  const weekStart=monday.toISOString().slice(0,10);
+
+  // 今週分のみ（今日以降の未結果 + 今週の結果済み）
+  const sorted=[...state.entries]
+    .map((e,i)=>({...e,_idx:i}))
+    .filter(e=>{
+      if(e.date>=today&&!isFinished(e))return true;
+      if(e.date>=weekStart&&e.date<=today&&isFinished(e))return true;
+      return false;
+    })
+    .sort((a,b)=>String(a.date).localeCompare(String(b.date)));
+
   const el=document.getElementById('entries-body');
   if(!sorted.length){
-    el.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:20px">出走予定なし</td></tr>';
+    el.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:20px">今週の出走予定なし</td></tr>';
     return;
   }
   el.innerHTML=sorted.map((e)=>{
