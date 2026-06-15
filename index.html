@@ -617,21 +617,19 @@ function renderRanking(){
 }
 
 function renderHomeEntries(){
-  const today=new Date().toISOString().slice(0,10);
-  // 今週の火曜日を計算（火曜始まり・月曜終わり）
+  // 今週の火曜日〜月曜日を計算（火曜始まり・月曜終わり）
   const now=new Date();
   const dow=now.getDay();
   const tuesday=new Date(now);
   tuesday.setDate(now.getDate()-((dow+5)%7));
   const weekStart=tuesday.toISOString().slice(0,10);
+  const mondayEnd=new Date(tuesday);
+  mondayEnd.setDate(tuesday.getDate()+6);
+  const weekEnd=mondayEnd.toISOString().slice(0,10);
 
-  // 今日以降の未結果 + 今週の結果済みを表示
+  // 今週(火〜月)に該当する出走予定をすべて表示（結果の有無は問わない）
   const entries=state.entries
-    .filter(e=>{
-      if(e.date>=today&&!isFinished(e))return true; // 今日以降の出走予定
-      if(e.date>=weekStart&&e.date<=today&&isFinished(e))return true; // 今週の結果済み
-      return false;
-    })
+    .filter(e=>e.date>=weekStart&&e.date<=weekEnd)
     .sort((a,b)=>a.date.localeCompare(b.date))
     .slice(0,15);
 
@@ -667,10 +665,25 @@ function renderHomeEntries(){
 }
 
 function renderEntries(){
-  const sorted=[...state.entries].map((e,i)=>({...e,_idx:i})).sort((a,b)=>String(a.date).localeCompare(String(b.date)));
+  // 今週の火曜日〜月曜日を計算（火曜始まり・月曜終わり）
+  const now=new Date();
+  const dow=now.getDay();
+  const tuesday=new Date(now);
+  tuesday.setDate(now.getDate()-((dow+5)%7));
+  const weekStart=tuesday.toISOString().slice(0,10);
+  const mondayEnd=new Date(tuesday);
+  mondayEnd.setDate(tuesday.getDate()+6);
+  const weekEnd=mondayEnd.toISOString().slice(0,10);
+
+  // 今週(火〜月)に該当する出走予定をすべて表示（結果の有無は問わない）
+  const sorted=[...state.entries]
+    .map((e,i)=>({...e,_idx:i}))
+    .filter(e=>e.date>=weekStart&&e.date<=weekEnd)
+    .sort((a,b)=>String(a.date).localeCompare(String(b.date)));
+
   const el=document.getElementById('entries-body');
   if(!sorted.length){
-    el.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:20px">出走予定なし</td></tr>';
+    el.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:20px">今週の出走予定なし</td></tr>';
     return;
   }
   el.innerHTML=sorted.map((e)=>{
