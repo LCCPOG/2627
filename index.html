@@ -618,12 +618,12 @@ function renderRanking(){
 
 function renderHomeEntries(){
   const today=new Date().toISOString().slice(0,10);
-  // 今週の月曜日を計算
+  // 今週の火曜日を計算（火曜始まり・月曜終わり）
   const now=new Date();
   const dow=now.getDay();
-  const monday=new Date(now);
-  monday.setDate(now.getDate()-(dow===0?6:dow-1));
-  const weekStart=monday.toISOString().slice(0,10);
+  const tuesday=new Date(now);
+  tuesday.setDate(now.getDate()-((dow+5)%7));
+  const weekStart=tuesday.toISOString().slice(0,10);
 
   // 今日以降の未結果 + 今週の結果済みを表示
   const entries=state.entries
@@ -668,12 +668,12 @@ function renderHomeEntries(){
 
 function renderEntries(){
   const today=new Date().toISOString().slice(0,10);
-  // 今週の月曜日を計算
+  // 今週の火曜日を計算（火曜始まり・月曜終わり）
   const now=new Date();
   const dow=now.getDay();
-  const monday=new Date(now);
-  monday.setDate(now.getDate()-(dow===0?6:dow-1));
-  const weekStart=monday.toISOString().slice(0,10);
+  const tuesday=new Date(now);
+  tuesday.setDate(now.getDate()-((dow+5)%7));
+  const weekStart=tuesday.toISOString().slice(0,10);
 
   // 今週分のみ（今日以降の未結果 + 今週の結果済み）
   const sorted=[...state.entries]
